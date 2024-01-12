@@ -24,18 +24,25 @@ Here are the fact about the USGS:
 
 **Source: https://www.usgs.gov/about/about-us/who-we-are
 
+
+
 In this repository built an geo-mapping visualization that can track earthquakes based on location, magnitude, depth and coordinates
 
 Data source is fed via D3 JSON to read the earthquake data (Source: http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
 
 I've also added additional layers on the map first including the earthquake occurences and second one is the fault lines that allows to track the tectonic plates
 
+
+
 **Note: source mapping from the techonic plates: https://github.com/fraxen/tectonicplates/tree/master
 
 Added the bind popup feature that displays the location, magnitude and depth by clickin on the marker (see fig below) 
 
 
-![Uploading Image 1-12-24 at 11.53 AM.jpeg…]()
+
+
+<img width="1510" alt="Screenshot 2024-01-12 at 12 15 36 PM" src="https://github.com/davisdw/USGS_GEOJSON_Mapping_Challenge/assets/104311388/ecc0500c-1194-4df8-96e8-d4307358325b">
+
 
 
 To see the map in full action click here -->> [add github browser here]
