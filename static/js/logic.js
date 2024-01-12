@@ -5,12 +5,17 @@
 
 //importing JSON Data **Gathering All Earthquakes for past 24 hours
 let geoJsonQuery = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
-
+//BONUS: Adding secondary mapping to display the tectonic plates
+let plateQuery = "static/PB2002_plates.json"
 //using D3 to GET Data request 
     d3.json(geoJsonQuery).then(function(earthQuake) {
+        d3.json(plateQuery).then(function(plateData) { 
         //test data
-        console.log(earthQuake);
-        createFeatures(earthQuake.features);
+            console.log(earthQuake);
+            console.log(plateData)
+            createFeatures(earthQuake.features, plateData.features);
+
+        });
     });
 
 //function to create an markerpoints
@@ -19,14 +24,14 @@ function createMarker(feature, latLong) {
         radius: markerSize(feature.properties.mag),
         fillColor: colorMarker(feature.geometry.coordinates[2]), 
         color: "#000",
-        weight: 0.7,
-        opacity: 0.6,
+        weight: 0.6,
+        opacity: 0.5,
         fillOpacity:1
     });
 }
 
 //function to execute each feature array list
-function createFeatures(earthQuake) {
+function createFeatures(earthQuake, plateData) {
     //including an popup on the that describes time and place of the earthquake when hover mouse over the marker point
     function onEachFeature(feature, layer) {
         layer.bindPopup(`<h3>Location:</h3> ${feature.properties.place}<h3> Magnitude:</h3> ${feature.properties.mag}<h3> Depth:</h3> ${feature.geometry.coordinates[2]}`);
@@ -48,10 +53,10 @@ function createFeatures(earthQuake) {
     });
 
     //CREATE FUNCTION TO PASS LAYER POP TO CREATE MAP
-    mapCreate(earthquakes)
+    mapCreate(earthquakes, plates)
 }
 
-function mapCreate(earthquakes) {
+function mapCreate(earthquakes, plates) {
     //adding the layers for street topography over the maps
     /**
      *  NOTE: using attribution control allows displaying 
@@ -97,14 +102,14 @@ function mapCreate(earthquakes) {
     //adding the legend to the myMap
     legend.onAdd = function(myMap) {
         //creating div variable to add in the HTML element tags
-        let div = L.DomUtil.created('div', 'info legend'),
+        let div = L.DomUtil.create('div', 'info legend'),
         grades = [-10, 10, 30, 60, 90] //magnitude scale
         labels = [],
         legendInfo = "<h5>Magnitude</h5>";
 
         for (let i = 0; i < grades.length; i++) { 
             div.innerHTML +=
-            '<i style="background:' + markerColor(grades[i] + 1) + '"></i> ' +
+            '<i style="background:' + colorMarker(grades[i] + 1) + '"></i> ' +
             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
         }
 
@@ -120,7 +125,7 @@ function markerSize(magnitude) {
     return magnitude * 5;
 }
 
-//alternate colors for markers base on depth of magenitudue 
+//alternate colors for markers base on depth of magenitudue bigger the depth the darker the colorscale
 function colorMarker(depth) {
     return  depth > 90 ? '#d73027' :
             depth > 70 ? '#fc8d59' :
