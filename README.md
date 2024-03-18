@@ -49,5 +49,5 @@ Added the bind popup feature that displays the location, magnitude and depth by 
 
 
 
-To see the map in full action click here -->> https://davisdw.github.io/USGS_GEOJSON_Mapping_Challenge/
+To see the map in full action click here -->> https://davisdw.github.io/USGS_GEOJSON_Mapping/
 
